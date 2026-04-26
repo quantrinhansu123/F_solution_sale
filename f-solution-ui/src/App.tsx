@@ -32,20 +32,60 @@ import {
   AlertTriangle
 } from 'lucide-react';
 
+import { fetchProjectFinancials } from './utils/finance';
+import type { FinancialData } from './types';
+import { supabase } from './supabase';
+import LoginPage from './pages/LoginPage';
+import type { Session } from '@supabase/supabase-js';
+import { Loader2 } from 'lucide-react';
+
 export default function App() {
+  const [session, setSession] = useState<Session | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [activeSubTab, setActiveSubTab] = useState<SubTabType>(null);
+  const [dbStatus, setDbStatus] = useState<'testing' | 'success' | 'error'>('testing');
+  
+  // State quản lý tài chính dự án
+  const [projectId, setProjectId] = useState<string>('045a11d9-9d7f-427b-8731-3688f6240ac4'); // ID dự án mẫu
+  const [financials, setFinancials] = useState<FinancialData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const revenue = 20000000;
+  React.useEffect(() => {
+    // Lấy session hiện tại
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session) setDbStatus('success');
+    });
+
+    // Lắng nghe thay đổi trạng thái auth
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session) setDbStatus('success');
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Fetch dữ liệu tài chính khi projectId thay đổi
+  React.useEffect(() => {
+    if (session && projectId) {
+      setLoading(true);
+      fetchProjectFinancials(projectId).then(data => {
+        setFinancials(data);
+        setLoading(false);
+      });
+    }
+  }, [session, projectId]);
 
   const stats = useMemo(() => {
+    if (!financials) return [];
     return [
-      { label: 'Doanh thu phần mềm', value: '20.000.000 ₫', icon: BarChart, color: 'bg-blue-500' },
-      { label: 'Lợi nhuận', value: '6.000.000 ₫', subValue: 'Target achieved', trend: '30% Rate', icon: TrendingUp, color: 'bg-green-500' },
-      { label: 'Chi phí chung', value: '2.000.000 ₫', subValue: 'Operating overheads', trend: '10% Cap', icon: Wallet, color: 'bg-orange-500' },
-      { label: 'Quỹ chia cho bộ phận', value: '12.000.000 ₫', subValue: '6 Departments mapped', trend: 'Allocated', icon: Users, variant: 'dark' as 'dark', color: 'bg-purple-500' },
+      { label: 'Doanh thu phần mềm', value: `${Math.round(financials.totalValue).toLocaleString('vi-VN')} ₫`, icon: BarChart, color: 'bg-blue-500' },
+      { label: 'Lợi nhuận (30%)', value: `${Math.round(financials.profit).toLocaleString('vi-VN')} ₫`, subValue: 'Fixed profit margin', trend: '30%', icon: TrendingUp, color: 'bg-green-500' },
+      { label: 'Chi phí chung (10%)', value: `${Math.round(financials.overheads).toLocaleString('vi-VN')} ₫`, subValue: 'Operating overheads', trend: '10%', icon: Wallet, color: 'bg-orange-500' },
+      { label: 'Quỹ phân bổ (60%)', value: `${Math.round(financials.pool60).toLocaleString('vi-VN')} ₫`, subValue: 'Net allocation pool', trend: '60%', icon: Users, variant: 'dark' as const, color: 'bg-purple-500' },
     ];
-  }, [revenue]);
+  }, [financials]);
 
   const getPageTitle = () => {
     switch (activeTab) {
@@ -74,6 +114,15 @@ export default function App() {
 
   const renderContent = () => {
     if (activeTab === 'dashboard') {
+      if (loading) {
+        return (
+          <div className="flex flex-col items-center justify-center h-64 space-y-4">
+            <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Đang tính toán tài chính...</p>
+          </div>
+        );
+      }
+
       return (
         <div className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -83,10 +132,10 @@ export default function App() {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="lg:col-span-2">
-              <DistributionTable />
+              <DistributionTable data={financials?.breakdown || []} />
             </div>
             <div className="lg:col-span-1">
-              <AllocationChart />
+              <AllocationChart breakdown={financials?.breakdown || []} />
             </div>
           </div>
         </div>
@@ -134,6 +183,10 @@ export default function App() {
       </div>
     );
   };
+
+  if (!session) {
+    return <LoginPage />;
+  }
 
   return (
     <div className="flex min-h-screen bg-[#F8FAFC]">

@@ -7,3 +7,31 @@ export interface MenuItem {
   icon: any;
   subItems?: { id: SubTabType; label: string }[];
 }
+
+export interface FinancialData {
+  totalValue: number;
+  profit: number;
+  overheads: number;
+  pool60: number;
+  breakdown: DepartmentAllocation[];
+}
+
+export interface DepartmentAllocation {
+  name: string;
+  percentage: number;
+  estimatedAmount: number;
+  actualSpent: number;
+}
+
+export interface CRMStats {
+  leads: { total: number; qualified: number; rate: number };
+  demos: { count: number; bonus: number };
+  contracts: { totalValue: number; fund31: number };
+  funnel: FunnelStage[];
+}
+
+export interface FunnelStage {
+  stage: string;
+  value: number;
+  rate: number;
+}

@@ -1,12 +1,21 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-const AllocationChart: React.FC = () => {
-  const data = [
-    { name: 'Production', value: 45, color: '#0F172A' },
-    { name: 'Growth', value: 34.5, color: '#10B981' },
-    { name: 'Operations', value: 20.5, color: '#94A3B8' },
-  ];
+import type { DepartmentAllocation } from '../types';
+
+interface AllocationChartProps {
+  breakdown: DepartmentAllocation[];
+}
+
+const AllocationChart: React.FC<AllocationChartProps> = ({ breakdown }) => {
+  // Chuẩn bị dữ liệu cho biểu đồ từ mảng breakdown thật
+  const chartData = breakdown.map(dept => ({
+    name: dept.name,
+    value: dept.percentage,
+    color: dept.name.includes('Dev') ? '#0F172A' : 
+           dept.name.includes('Sale') ? '#10B981' : 
+           dept.name.includes('Product') ? '#8B5CF6' : '#94A3B8'
+  }));
 
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-col h-full text-[13px]">
@@ -16,7 +25,7 @@ const AllocationChart: React.FC = () => {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={data}
+              data={chartData}
               cx="50%"
               cy="50%"
               innerRadius={55}
@@ -27,7 +36,7 @@ const AllocationChart: React.FC = () => {
               startAngle={90}
               endAngle={450}
             >
-              {data.map((entry, index) => (
+              {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
@@ -41,15 +50,15 @@ const AllocationChart: React.FC = () => {
       </div>
 
       <div className="mt-6 space-y-3">
-        {data.map((item, idx) => (
+        {chartData.map((item, idx) => (
           <div key={idx} className="flex items-center justify-between group">
             <div className="flex items-center gap-2.5">
               <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
               <span className="text-[12px] font-bold text-slate-500">
-                {item.name} {item.name === 'Production' ? '(Dev)' : item.name === 'Growth' ? '(Sale)' : '(Others)'}
+                {item.name}
               </span>
             </div>
-            <span className="text-[14px] font-black text-slate-900">{item.value}%</span>
+            <span className="text-[14px] font-black text-slate-900">{item.value.toFixed(1)}%</span>
           </div>
         ))}
       </div>
