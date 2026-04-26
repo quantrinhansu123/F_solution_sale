@@ -39,42 +39,42 @@ const CRMOverview: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 text-[13px]">
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {stats.map((s, i) => (
           <StatCard key={i} {...s} />
         ))}
       </div>
 
       {/* Sales Funnel */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-bold text-slate-900">Phễu bán hàng (Sales Funnel)</h3>
-            <p className="text-sm text-slate-500">Tỉ lệ chuyển đổi qua từng giai đoạn</p>
+            <h3 className="text-base font-bold text-slate-900">Phễu bán hàng (Sales Funnel)</h3>
+            <p className="text-[11px] text-slate-500">Tỉ lệ chuyển đổi qua từng giai đoạn</p>
           </div>
-          <Target className="text-slate-400" size={24} />
+          <Target className="text-slate-400" size={20} />
         </div>
 
-        <div className="flex flex-col items-center space-y-2">
+        <div className="flex flex-col items-center space-y-1.5">
           {funnelData.map((item, index) => (
             <div key={index} className="w-full flex flex-col items-center">
               <div 
-                className={`${item.width} ${item.color} rounded-xl p-4 flex items-center justify-between border border-white/50 backdrop-blur-sm transition-all hover:scale-[1.02] cursor-default`}
+                className={`${item.width} ${item.color} rounded-lg p-2.5 flex items-center justify-between border border-white/50 transition-all hover:scale-[1.01] cursor-default`}
               >
-                <span className={`font-bold ${item.textColor}`}>{item.step}</span>
-                <div className="flex items-center gap-4">
-                  <span className="text-slate-900 font-black text-xl">{item.value}</span>
+                <span className={`font-bold ${item.textColor} text-[12px]`}>{item.step}</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-slate-900 font-black text-base">{item.value}</span>
                   {index > 0 && (
-                    <span className="text-xs font-bold bg-white/50 px-2 py-1 rounded-lg text-slate-500">
+                    <span className="text-[10px] font-bold bg-white/50 px-1.5 py-0.5 rounded text-slate-500">
                       {Math.round((item.value / funnelData[index - 1].value) * 100)}%
                     </span>
                   )}
                 </div>
               </div>
               {index < funnelData.length - 1 && (
-                <div className="h-4 w-px bg-slate-200"></div>
+                <div className="h-2 w-px bg-slate-200"></div>
               )}
             </div>
           ))}

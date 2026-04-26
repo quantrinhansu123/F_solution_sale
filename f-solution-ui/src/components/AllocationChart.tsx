@@ -9,18 +9,18 @@ const AllocationChart: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm p-8 flex flex-col h-full">
-      <h3 className="text-xl font-black text-slate-900 tracking-tight mb-8">Fund Allocation</h3>
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-col h-full text-[13px]">
+      <h3 className="text-base font-bold text-slate-900 tracking-tight mb-6">Phân bổ Quỹ (Fund)</h3>
       
-      <div className="flex-1 relative min-h-[240px]">
+      <div className="flex-1 relative min-h-[180px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={70}
-              outerRadius={95}
+              innerRadius={55}
+              outerRadius={75}
               paddingAngle={0}
               dataKey="value"
               stroke="none"
@@ -35,28 +35,28 @@ const AllocationChart: React.FC = () => {
         </ResponsiveContainer>
         
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-4xl font-black text-slate-900 leading-none">60%</span>
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Split</span>
+          <span className="text-2xl font-black text-slate-900 leading-none">60%</span>
+          <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Total Split</span>
         </div>
       </div>
 
-      <div className="mt-8 space-y-4">
+      <div className="mt-6 space-y-3">
         {data.map((item, idx) => (
           <div key={idx} className="flex items-center justify-between group">
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 rounded-full transition-transform group-hover:scale-125" style={{ backgroundColor: item.color }} />
-              <span className="text-sm font-bold text-slate-500">
-                {item.name} {item.name === 'Production' ? '(Dev/SA)' : item.name === 'Growth' ? '(Sale/Mkt)' : '(CS/Others)'}
+            <div className="flex items-center gap-2.5">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+              <span className="text-[12px] font-bold text-slate-500">
+                {item.name} {item.name === 'Production' ? '(Dev)' : item.name === 'Growth' ? '(Sale)' : '(Others)'}
               </span>
             </div>
-            <span className="text-base font-black text-slate-900">{item.value}%</span>
+            <span className="text-[14px] font-black text-slate-900">{item.value}%</span>
           </div>
         ))}
       </div>
 
-      <div className="mt-auto pt-8">
-        <p className="text-[11px] text-slate-400 font-bold leading-relaxed">
-          This distribution is calculated based on the <span className="text-slate-900 font-black">60% Net Allocation</span> policy approved for the 2026 fiscal cycle.
+      <div className="mt-auto pt-6 border-t border-slate-50 mt-6">
+        <p className="text-[10px] text-slate-400 font-bold leading-normal">
+          Dựa trên chính sách <span className="text-slate-900 font-black">60% Net Allocation</span> năm 2026.
         </p>
       </div>
     </div>

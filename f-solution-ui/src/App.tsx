@@ -75,13 +75,13 @@ export default function App() {
   const renderContent = () => {
     if (activeTab === 'dashboard') {
       return (
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((s, i) => (
               <StatCard key={i} {...s} />
             ))}
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="lg:col-span-2">
               <DistributionTable />
             </div>
@@ -95,7 +95,7 @@ export default function App() {
 
     if (activeTab === 'crm') {
       return (
-        <div className="space-y-8">
+        <div className="space-y-5">
           {activeSubTab === 'leads' && <LeadManagement />}
           {activeSubTab === 'demo' && <DemoManagement />}
           {activeSubTab === 'contracts' && <ContractManagement />}
@@ -106,14 +106,14 @@ export default function App() {
 
     if (activeTab === 'ticket') {
       return (
-        <div className="space-y-8">
+        <div className="space-y-5">
           {activeSubTab === 'ba' && <SpecificationTable />}
           {activeSubTab === 'dev' && <DevTaskTable />}
           {activeSubTab === 'cs' && <CSTab />}
           {(activeSubTab === 'overview' || activeSubTab === null) && <TicketOverview />}
           {activeSubTab !== 'ba' && activeSubTab !== 'dev' && activeSubTab !== 'cs' && activeSubTab !== 'overview' && activeSubTab !== null && (
-            <div className="bg-white rounded-[32px] border border-slate-100 p-24 text-center">
-              <h2 className="text-2xl font-black text-slate-900 uppercase">Module: {getPageTitle()}</h2>
+            <div className="bg-white rounded-2xl border border-slate-100 p-16 text-center">
+              <h2 className="text-xl font-black text-slate-900 uppercase">Module: {getPageTitle()}</h2>
             </div>
           )}
         </div>
@@ -129,8 +129,8 @@ export default function App() {
     }
 
     return (
-      <div className="bg-white rounded-[32px] border border-slate-100 p-24 text-center">
-        <h2 className="text-2xl font-black text-slate-900 uppercase">Module: {getPageTitle()}</h2>
+      <div className="bg-white rounded-2xl border border-slate-100 p-16 text-center">
+        <h2 className="text-xl font-black text-slate-900 uppercase">Module: {getPageTitle()}</h2>
       </div>
     );
   };
@@ -147,7 +147,7 @@ export default function App() {
       <main className="flex-1 flex flex-col">
         <Header title={getPageTitle()} />
 
-        <div className="p-8 space-y-8">
+        <div className="p-5 space-y-5">
           {renderContent()}
         </div>
       </main>

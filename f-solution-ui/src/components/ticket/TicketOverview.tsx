@@ -34,29 +34,29 @@ const TicketOverview: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 text-[13px]">
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {stats.map((s, i) => (
           <StatCard key={i} {...s} />
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Project Progress */}
-        <div className="lg:col-span-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-bold text-slate-900">Tiến độ dự án</h3>
-            <Code className="text-slate-400" size={20} />
+        <div className="lg:col-span-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-base font-bold text-slate-900">Tiến độ dự án</h3>
+            <Code className="text-slate-400" size={18} />
           </div>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {projectProgress.map((item, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex justify-between text-sm font-bold">
+              <div key={index} className="space-y-1.5">
+                <div className="flex justify-between text-[12px] font-bold">
                   <span className="text-slate-600">{item.stage}</span>
                   <span className="text-slate-900">{item.progress}%</span>
                 </div>
-                <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                   <div 
                     className={`h-full ${item.color} rounded-full transition-all duration-1000 ease-out`}
                     style={{ width: `${item.progress}%` }}
@@ -65,71 +65,71 @@ const TicketOverview: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="mt-8 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
-            <p className="text-xs font-bold text-indigo-900 flex items-center gap-2">
-              <AlertCircle size={14} />
+          <div className="mt-6 p-3 bg-indigo-50 rounded-lg border border-indigo-100">
+            <p className="text-[10px] font-bold text-indigo-900 flex items-center gap-1.5">
+              <AlertCircle size={12} />
               Ghi chú Audit
             </p>
-            <p className="text-[11px] text-indigo-700 mt-1 leading-relaxed">
-              Khâu <b>Lập trình</b> đang chậm tiến độ 5% so với kế hoạch ban đầu. Cần BA hỗ trợ đặc tả chi tiết hơn.
+            <p className="text-[10px] text-indigo-700 mt-1 leading-normal">
+              Khâu <b>Lập trình</b> chậm 5%. Cần BA hỗ trợ đặc tả chi tiết hơn.
             </p>
           </div>
         </div>
 
         {/* Hot Tickets Table */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
+          <div className="p-4 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Ticket "Nóng" cần Audit</h3>
-              <p className="text-sm text-slate-500">Tickets quá hạn hoặc Reopen nhiều lần</p>
+              <h3 className="text-base font-bold text-slate-900">Ticket "Nóng" cần Audit</h3>
+              <p className="text-[11px] text-slate-500">Tickets quá hạn hoặc Reopen nhiều lần</p>
             </div>
-            <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-black uppercase tracking-tighter">
-              Critical Area
+            <span className="bg-red-50 text-red-700 px-2 py-0.5 rounded text-[9px] font-black uppercase border border-red-100">
+              Critical
             </span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50/30">
-                  <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Ticket</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Trạng thái</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Deadline</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Reopen</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Assignee</th>
+                <tr className="bg-slate-50/30 border-b border-slate-100">
+                  <th className="px-4 py-2.5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ticket</th>
+                  <th className="px-4 py-2.5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Trạng thái</th>
+                  <th className="px-4 py-2.5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Deadline</th>
+                  <th className="px-4 py-2.5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Reopen</th>
+                  <th className="px-4 py-2.5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Assignee</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {hotTickets.map((ticket) => (
                   <tr key={ticket.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-6 py-4">
-                      <p className="font-bold text-slate-900 line-clamp-1 group-hover:text-indigo-600 transition-colors">{ticket.title}</p>
-                      <p className="text-[10px] text-slate-400 font-mono">{ticket.id}</p>
+                    <td className="px-4 py-2.5">
+                      <p className="font-bold text-slate-900 line-clamp-1 text-[12px]">{ticket.title}</p>
+                      <p className="text-[9px] text-slate-400 font-mono tracking-tighter uppercase">{ticket.id}</p>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black uppercase ${
-                        ticket.status === 'Reopened' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                    <td className="px-4 py-2.5 text-center">
+                      <span className={`px-1.5 py-0.5 rounded text-[9px] font-black uppercase border ${
+                        ticket.status === 'Reopened' ? 'bg-red-50 text-red-700 border-red-100' : 'bg-amber-50 text-amber-700 border-amber-100'
                       }`}>
                         {ticket.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-red-600">
-                        <Clock size={12} />
+                    <td className="px-4 py-2.5">
+                      <div className="flex items-center gap-1 text-[11px] font-bold text-red-600">
+                        <Clock size={10} />
                         {ticket.deadline}
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-1.5 text-xs font-black text-slate-900">
-                        <RotateCcw size={12} className={ticket.reopenCount > 1 ? 'text-red-500' : 'text-slate-400'} />
-                        {ticket.reopenCount} lần
+                    <td className="px-4 py-2.5 text-center">
+                      <div className="flex items-center justify-center gap-1 text-[11px] font-black text-slate-900">
+                        <RotateCcw size={10} className={ticket.reopenCount > 1 ? 'text-red-500' : 'text-slate-400'} />
+                        {ticket.reopenCount}
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-600">
+                    <td className="px-4 py-2.5 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <div className="w-5 h-5 bg-slate-100 rounded-full flex items-center justify-center text-[9px] font-bold text-slate-600">
                           {ticket.assignee.charAt(0)}
                         </div>
-                        <span className="text-xs font-bold text-slate-700">{ticket.assignee}</span>
+                        <span className="text-[11px] font-bold text-slate-700">{ticket.assignee}</span>
                       </div>
                     </td>
                   </tr>
