@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Code2, GitPullRequest, DollarSign, CheckCircle2, Laptop, Clock, ShieldCheck, ExternalLink, Plus, Edit2, Trash2, X } from 'lucide-react';
 import { mockDevTasks } from '../../data/ticketMockData';
 import StatCard from '../StatCard';
+import { formatVnd } from '../../utils/formatVnd';
 
 const DevTaskTable: React.FC = () => {
   const [tasks, setTasks] = useState(mockDevTasks);
@@ -21,10 +22,6 @@ const DevTaskTable: React.FC = () => {
   const totalIncome = totalPoints * 100000;
   const availableIncome = donePoints * 100000 * 0.6;
   const pendingIncome = (totalPoints * 100000) - availableIncome;
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-  };
 
   const handleOpenModal = (task?: any) => {
     if (task) {
@@ -87,14 +84,14 @@ const DevTaskTable: React.FC = () => {
         />
         <StatCard 
           label="Thu nhập khả dụng (60%)" 
-          value={formatCurrency(availableIncome)} 
+          value={formatVnd(availableIncome)} 
           subValue="Từ các Ticket đã Done" 
           icon={DollarSign} 
           color="bg-emerald-500" 
         />
         <StatCard 
           label="Quỹ treo (40%)" 
-          value={formatCurrency(pendingIncome)} 
+          value={formatVnd(pendingIncome)} 
           subValue="Chờ UAT & Go-live" 
           icon={Clock} 
           color="bg-amber-500" 

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { UserPlus, Presentation, FileCheck, Target, Loader2 } from 'lucide-react';
 import StatCard from '../StatCard';
 import { fetchCRMOverview } from '../../utils/crm';
+import { formatVnd } from '../../utils/formatVnd';
 import type { CRMStats } from '../../types';
 
 const CRMOverview: React.FC = () => {
@@ -29,15 +30,15 @@ const CRMOverview: React.FC = () => {
       {
         label: 'Số ca Demo đã thực hiện',
         value: data.demos.count.toString(),
-        subValue: `${data.demos.bonus.toLocaleString('vi-VN')} ₫`,
+        subValue: formatVnd(data.demos.bonus),
         trend: '50k / ca',
         icon: Presentation,
         color: 'bg-purple-500'
       },
       {
         label: 'Giá trị Hợp đồng dự kiến',
-        value: `${Math.round(data.contracts.totalValue).toLocaleString('vi-VN')} ₫`,
-        subValue: `31% Fund: ${Math.round(data.contracts.fund31).toLocaleString('vi-VN')} ₫`,
+        value: formatVnd(Math.round(data.contracts.totalValue)),
+        subValue: `31% Fund: ${formatVnd(Math.round(data.contracts.fund31))}`,
         trend: '31% Fund',
         icon: FileCheck,
         color: 'bg-green-500',

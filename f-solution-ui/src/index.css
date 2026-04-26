@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Montserrat", ui-serif, Georgia, serif;
+  --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Roboto", ui-serif, Georgia, serif;
+  --font-mono: "Roboto", ui-sans-serif, system-ui, sans-serif;
 }
 
 body {

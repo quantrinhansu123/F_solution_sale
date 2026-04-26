@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 import type { DepartmentAllocation } from '../types';
+import { formatVnd } from '../utils/formatVnd';
 
 interface DistributionTableProps {
   data: DepartmentAllocation[];
@@ -79,7 +80,7 @@ const DistributionTable: React.FC<DistributionTableProps> = ({ data }) => {
                   </td>
                   <td className="px-5 py-2.5 text-right">
                     <span className="font-black text-slate-900">
-                      {Math.round(dept.estimatedAmount).toLocaleString('vi-VN')} ₫
+                      {formatVnd(Math.round(dept.estimatedAmount))}
                     </span>
                   </td>
                   <td className="px-5 py-2.5 text-right">

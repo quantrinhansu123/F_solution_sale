@@ -1,6 +1,11 @@
 import { supabase } from '../supabase';
 import type { FinancialData, DepartmentAllocation } from '../types';
 
+function errText(e: { code?: string; message?: string; hint?: string; details?: string } | null): string {
+  if (!e) return '';
+  return [e.code, e.message, e.hint, e.details].filter(Boolean).join(' — ') || 'Unknown error';
+}
+
 const DEPARTMENTS = [
   { name: 'Marketing', percentage: 0.025, source: 'lead' },
   { name: 'Sale', percentage: 0.32, source: 'demo' },
@@ -12,16 +17,19 @@ const DEPARTMENTS = [
 
 export async function fetchProjectFinancials(projectId: string): Promise<FinancialData> {
   try {
-    // 1. Lấy total_value từ bảng contracts (liên kết qua project_id)
-    const { data: contractData, error: contractError } = await supabase
+    // 1. Lấy total_value: luôn dùng dạng mảng (không .single()/.maybeSingle()) — tránh PGRST116
+    // Nếu nhiều bản ghi cùng project_id, cộng dồn giá trị (có thể đổi thành chỉ lấy bản mới nhất tùy nghiệp vụ)
+    const { data: contractRows, error: contractError } = await supabase
       .from('contracts')
       .select('total_value')
-      .eq('project_id', projectId)
-      .maybeSingle();
+      .eq('project_id', projectId);
 
-    if (contractError) console.error('Lỗi lấy hợp đồng:', contractError);
+    if (contractError) console.error('Lỗi lấy hợp đồng:', errText(contractError));
 
-    const totalValue = Number(contractData?.total_value || 0);
+    const totalValue = (contractRows || []).reduce(
+      (s, r) => s + Number(r.total_value || 0),
+      0
+    );
 
     // 2. Lấy chi phí thực tế từ earnings_logs để so sánh
     const { data: logs, error: logsError } = await supabase
@@ -29,7 +37,7 @@ export async function fetchProjectFinancials(projectId: string): Promise<Financi
       .select('source_type, amount')
       .eq('project_id', projectId);
 
-    if (logsError) console.error('Lỗi lấy log thu nhập:', logsError);
+    if (logsError) console.error('Lỗi lấy log thu nhập:', errText(logsError));
 
     // Tính toán các hằng số theo công thức
     const profit = totalValue * 0.3;

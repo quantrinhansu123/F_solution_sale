@@ -1,11 +1,9 @@
 import React from 'react';
 import { Wallet, History, TrendingUp, ArrowDownLeft, ArrowUpRight, DollarSign, CreditCard, PieChart } from 'lucide-react';
 import { mockTransactions, incomeByRole } from '../../data/incomeMockData';
+import { formatVnd } from '../../utils/formatVnd';
 
 const IncomeTab: React.FC = () => {
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-  };
 
   const totalBalance = 8450000;
   const pendingBalance = 3200000;
@@ -25,7 +23,7 @@ const IncomeTab: React.FC = () => {
               <CreditCard size={14} />
               <span className="text-[10px] font-black uppercase tracking-wider">Số dư khả dụng</span>
             </div>
-            <div className="text-3xl font-black mb-4">{formatCurrency(totalBalance)}</div>
+            <div className="text-3xl font-black mb-4">{formatVnd(totalBalance)}</div>
             <button className="bg-white text-slate-900 px-4 py-2 rounded-xl text-xs font-black hover:bg-slate-100 transition-all active:scale-95 flex items-center gap-1.5">
               <ArrowDownLeft size={16} />
               Rút tiền
@@ -42,7 +40,7 @@ const IncomeTab: React.FC = () => {
             <span className="text-[9px] font-black bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded-full uppercase">60-20-20</span>
           </div>
           <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-0.5">Tiền đang treo (Pending)</div>
-          <div className="text-2xl font-black text-slate-900 mb-1">{formatCurrency(pendingBalance)}</div>
+          <div className="text-2xl font-black text-slate-900 mb-1">{formatVnd(pendingBalance)}</div>
           <p className="text-[10px] text-amber-700 font-medium italic">Chờ nghiệm thu & Go-live (40%)</p>
         </div>
 
@@ -54,7 +52,7 @@ const IncomeTab: React.FC = () => {
             </div>
           </div>
           <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-0.5">Thu nhập dự kiến</div>
-          <div className="text-2xl font-black text-slate-900 mb-1">{formatCurrency(estimatedIncome)}</div>
+          <div className="text-2xl font-black text-slate-900 mb-1">{formatVnd(estimatedIncome)}</div>
           <div className="flex items-center gap-1 text-emerald-600 text-[11px] font-bold">
             <ArrowUpRight size={12} />
             +12% vs tháng trước
@@ -101,7 +99,7 @@ const IncomeTab: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right font-black text-emerald-600 text-base">
-                      +{formatCurrency(tx.amount).replace('₫', '').trim()} <span className="text-[10px]">₫</span>
+                      +{formatVnd(tx.amount).replace('₫', '').trim()} <span className="text-[10px]">₫</span>
                     </td>
                     <td className="px-4 py-3 text-center">
                       <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${
@@ -145,7 +143,7 @@ const IncomeTab: React.FC = () => {
                     <div className={`w-2 h-2 rounded-full ${item.color}`}></div>
                     <span className="text-[12px] font-bold text-slate-700">{item.role}</span>
                   </div>
-                  <span className="text-[12px] font-black text-slate-900">{formatCurrency(item.amount)}</span>
+                  <span className="text-[12px] font-black text-slate-900">{formatVnd(item.amount)}</span>
                 </div>
               ))}
             </div>

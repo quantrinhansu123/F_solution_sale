@@ -2,14 +2,11 @@ import React from 'react';
 import { Rocket, Headset, ShieldCheck, FileSignature, CheckCircle2, AlertCircle, ExternalLink, MessageSquare } from 'lucide-react';
 import { mockDeployments, mockSupportTickets } from '../../data/ticketMockData';
 import StatCard from '../StatCard';
+import { formatVnd } from '../../utils/formatVnd';
 
 const CSTab: React.FC = () => {
   const handleGoLive = () => {
     alert('Giải ngân nốt 40% quỹ dự án cho toàn bộ team! Hệ thống đang cập nhật dòng tiền...');
-  };
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
   };
 
   return (
@@ -25,7 +22,7 @@ const CSTab: React.FC = () => {
         />
         <StatCard 
           label="Quỹ AMC khả dụng" 
-          value={formatCurrency(400000)} 
+          value={formatVnd(400000)} 
           subValue="Phí vận hành 1M/năm" 
           icon={ShieldCheck} 
           color="bg-blue-500" 
