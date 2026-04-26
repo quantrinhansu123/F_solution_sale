@@ -6,11 +6,14 @@ import {
   Wallet, 
   Settings, 
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  LogOut
 } from 'lucide-react';
 import type { TabType, SubTabType } from '../types';
+import { supabase } from '../supabase';
 
 interface SidebarProps {
+// ... (giữ nguyên props)
   activeTab: TabType;
   setActiveTab: (tab: TabType) => void;
   activeSubTab: SubTabType;
@@ -130,11 +133,21 @@ const Sidebar: React.FC<SidebarProps> = ({
         })}
       </nav>
 
-      <div className="p-3 border-t border-slate-50">
+      <div className="p-3 border-t border-slate-50 space-y-2">
         <div className="bg-slate-50 rounded-xl p-2.5">
           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Phiên bản</p>
           <p className="text-[11px] font-bold text-slate-900">v2.4.0 (Enterprise)</p>
         </div>
+
+        <button 
+          onClick={async () => {
+            await supabase.auth.signOut();
+          }}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-rose-500 hover:bg-rose-50 transition-colors font-bold text-sm"
+        >
+          <LogOut size={18} strokeWidth={2.5} />
+          <span>Đăng xuất</span>
+        </button>
       </div>
     </aside>
   );
